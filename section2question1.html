@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<body ng-app="myApp">
+
+<table class="mat-table">
+
+      <tr class="mat-header-row">
+
+        <th style="width: 200px;">
+
+          <form name="myForm">
+
+            <div ng-controller="myCtrl">
+
+             <!-- <input type="number" ng-change="changeValue()" ng-model="myValue" id = "inputValue"> -->
+			<input type="number" id = "inputValue" min="1" pattern="\d*" onChange="checkValue(this.value)">
+            </div>
+
+          </form>
+
+        </th> 
+
+        <th style="min-width: 100px;">
+        	<select name="calculate" id="calculate" onchange="calculate()">
+              <option disabled selected value></option>
+              <option value="isPrime">isPrime</option>
+              <option value="isFibanacci">isFibanacci</option>
+            </select>
+        </th>
+
+        <th style="width: 300px;" id = "showReslove"><p id="showReslove"></p></th>
+
+      </tr>
+
+    </table>
+
+<script>
+	// Set input value
+    angular.module('myApp', [])
+    .controller('myCtrl', ['$scope', function($scope) {
+
+      $scope.changeValue()= function() {
+        Math.round($scope.value);
+        if($scope.value < 0) $scope.value = 1;
+      };
+
+    }]);
+    
+    function checkValue(ish){
+    	document.getElementById("showReslove").value = ish;
+    }
+    // Calculate and show result
+	function calculate() {
+      var x = document.getElementById("calculate").value;
+      //alert(x)
+      if( x.valueOf() == "isPrime") {
+        alert("1: " + x);
+      	document.getElementById("showReslove").innerHTML = prime(inputValue).toString();
+      }
+      else {
+        //alert("2: " + x);
+      	document.getElementById("showReslove").innerHTML = fibonacci(inputValue).toString();
+      }
+    }
+    // Fibonacci function
+    const fibonacci = (query, count = 1, last = 0) => {
+       if(count < query){
+          return fibonacci(query, count+last, count);
+       };
+       if(count === query){
+          return true;
+       }
+       return false;
+    };
+    // Prime function
+    function prime(n)
+    {
+
+      if (n===1)
+      {
+        return false;
+      }
+      else if(n === 2)
+      {
+        return true;
+      }else
+      {
+        for(var x = 2; x < n; x++)
+        {
+          if(n % x === 0)
+          {
+            return false;
+          }
+        }
+        return true;  
+      }
+    }
+</script>
+
+<style>
+
+    table, th, td {
+
+    border: 1px solid grey;
+
+    border-collapse: collapse;
+
+}
+table{
+
+    width: 100%;
+    margin-top: 10px;
+    max-height: 600px;
+    overflow: scroll;
+}
+</style>
+
+</body>
+
+</html>
